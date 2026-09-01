@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 5c: Linked List Advanced Problems (Middle of List & Merge Sorted Lists)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f7fafc;
+        }
+        h1 {
+            color: #c53030;
+            border-bottom: 3px solid #c53030;
+            padding-bottom: 10px;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #2b6cb0;
+            font-size: 1.5rem;
+            margin-top: 30px;
+            border-left: 5px solid #2b6cb0;
+            padding-left: 10px;
+        }
+        .intro-box {
+            background-color: #fff;
+            border: 1px dashed #cbd5e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        .box {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .concept-box {
+            background-color: #ebf8ff;
+            border-left: 6px solid #3182ce;
+        }
+        .important-box {
+            background-color: #f0fff4;
+            border-left: 6px solid #38a169;
+        }
+        .warning-box {
+            background-color: #fff5f5;
+            border-left: 6px solid #e53e3e;
+        }
+        .box-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .concept-box .box-title { color: #2b6cb0; }
+        .important-box .box-title { color: #276749; }
+        .warning-box .box-title { color: #9b2c2c; }
+        
+        pre {
+            background-color: #1a202c;
+            color: #cbd5e0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            margin: 15px 0;
+        }
+        code {
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            background-color: #edf2f7;
+            color: #805ad5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+            font-size: inherit;
+        }
+        .keyword { color: #f687b3; font-weight: bold; }
+        .function { color: #63b3ed; }
+        .comment { color: #a0aec0; font-style: italic; }
+        .number { color: #f6ad55; }
+        .string { color: #68d391; }
+        
+        .diagram-container {
+            background-color: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid #cbd5e0;
+            line-height: 1.3;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🐍 Lesson 5c: Linked List Advanced Problems (Middle & Merge Sorted Lists)</h1>
+    
+    <div class="intro-box">
+        Bhai, ye Linked List ke do sabse common aur high-frequency interview patterns hain. Inhe master karte hi hamara Linked List chapter 100% complete ho jayega.
+    </div>
+
+    <h2>1️⃣ Pattern 1: Find Middle Node in 1-Pass</h2>
+    
+    <div class="box concept-box">
+        <div class="box-title">🟢 YE KYA HAI? (Definition)</div>
+        Ek pass (loop) mein bina list ki length count kiye middle node dhundna. Ise <strong>Fast & Slow Pointer</strong> technique se solve karte hain.
+    </div>
+
+    <h2>🖼️ DIAGRAM: Fast & Slow Pointer Flow</h2>
+    
+    <div class="diagram-container">
+Odd length: [ 10 ] ──> [ 20 ] ──> [ 30 ] ──> [ 40 ] ──> [ 50 ] ──> None
+Step 1:     slow/fast
+Step 2:                slow       fast
+Step 3:                           slow                   fast (End!)
+Middle = 30</div>
+
+    <h2>🔵 CODE EXPLANATION (Middle Node)</h2>
+    
+    <pre><code><span class="keyword">def</span> <span class="function">find_middle</span>(head):
+    slow = head
+    fast = head
+    
+    <span class="comment"># fast 2-steps chalega, slow 1-step</span>
+    <span class="keyword">while</span> fast <span class="keyword">and</span> fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        
+    <span class="keyword">return</span> slow  <span class="comment"># slow is exact middle!</span></code></pre>
+
+    <h2>2️⃣ Pattern 2: Merge Two Sorted Linked Lists</h2>
+    
+    <div class="box concept-box">
+        <div class="box-title">🟢 YE KYA HAI? (Definition)</div>
+        Do already sorted linked lists ko merge karke ek single sorted linked list banana, bina extra node create kiye (in-place pointer stitching).
+    </div>
+
+    <h2>🖼️ DIAGRAM: Dummy Node Stitching</h2>
+    
+    <div class="diagram-container">
+List 1: [ 10 ] ──> [ 30 ] ──> [ 50 ]
+List 2: [ 20 ] ──> [ 40 ]
+
+Dummy: [ 0 ] ──> [ 10 ] ──> [ 20 ] ──> [ 30 ] ──> [ 40 ] ──> [ 50 ] ──> None</div>
+
+    <h2>🔵 CODE EXPLANATION (Merge Two Sorted Lists)</h2>
+    
+    <pre><code><span class="keyword">def</span> <span class="function">merge_sorted_lists</span>(l1, l2):
+    <span class="comment"># Dummy node gives a clean start pointer</span>
+    dummy = <span class="function">Node</span>(<span class="number">0</span>)
+    curr = dummy
+    
+    <span class="keyword">while</span> l1 <span class="keyword">and</span> l2:
+        <span class="keyword">if</span> l1.val <= l2.val:
+            curr.next = l1
+            l1 = l1.next
+        <span class="keyword">else</span>:
+            curr.next = l2
+            l2 = l2.next
+        curr = curr.next
+        
+    <span class="comment"># Attach the remaining chain</span>
+    curr.next = l1 <span class="keyword">if</span> l1 <span class="keyword">else</span> l2
+    
+    <span class="keyword">return</span> dummy.next</code></pre>
+
+    <div class="box important-box">
+        <div class="box-title">💡 EASY WAY TO REMEMBER</div>
+        <ul>
+            <li><strong>Middle Find = Slow walks 1 step, Fast runs 2 steps.</strong></li>
+            <li><strong>Merge Sorted = Dummy node banao, chhota element link karo, pointer aage badhao.</strong></li>
+        </ul>
+    </div>
+
+</body>
+</html>
+

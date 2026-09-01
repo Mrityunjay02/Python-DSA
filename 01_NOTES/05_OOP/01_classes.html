@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 4: Object-Oriented Python (Classes & Node References)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f7fafc;
+        }
+        h1 {
+            color: #c53030;
+            border-bottom: 3px solid #c53030;
+            padding-bottom: 10px;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #2b6cb0;
+            font-size: 1.5rem;
+            margin-top: 30px;
+            border-left: 5px solid #2b6cb0;
+            padding-left: 10px;
+        }
+        .intro-box {
+            background-color: #fff;
+            border: 1px dashed #cbd5e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        .box {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .concept-box {
+            background-color: #ebf8ff;
+            border-left: 6px solid #3182ce;
+        }
+        .important-box {
+            background-color: #f0fff4;
+            border-left: 6px solid #38a169;
+        }
+        .warning-box {
+            background-color: #fff5f5;
+            border-left: 6px solid #e53e3e;
+        }
+        .box-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .concept-box .box-title { color: #2b6cb0; }
+        .important-box .box-title { color: #276749; }
+        .warning-box .box-title { color: #9b2c2c; }
+        
+        pre {
+            background-color: #1a202c;
+            color: #cbd5e0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            margin: 15px 0;
+        }
+        code {
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            background-color: #edf2f7;
+            color: #805ad5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+            font-size: inherit;
+        }
+        .keyword { color: #f687b3; font-weight: bold; }
+        .function { color: #63b3ed; }
+        .comment { color: #a0aec0; font-style: italic; }
+        .number { color: #f6ad55; }
+        .string { color: #68d391; }
+        
+        .diagram-container {
+            background-color: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid #cbd5e0;
+            line-height: 1.3;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🐍 Lesson 4: Object-Oriented Python (Classes & Node References)</h1>
+    
+    <div class="intro-box">
+        Bhai, aaj hum <strong>Object-Oriented Programming (OOP)</strong> ke basic nodes seekhenge. Ye concept sabse important hai agar hume custom structures jaise <strong>Linked List, Stacks, Queues, aur Trees</strong> banane hain.
+    </div>
+
+    <h2>1️⃣ Concept: Class, Objects, and Node Reference</h2>
+    
+    <div class="box concept-box">
+        <div class="box-title">🟢 YE KYA HAI? (Definition)</div>
+        <strong>Class</strong> ek blueprint (naksha) hoti hai, aur <strong>Object</strong> us blueprint se bana actual block/instance hota hai. Python me node structures banane ke liye hum custom classes ka use karte hain.
+    </div>
+
+    <h2>🖼️ DIAGRAM: Linked Node References in Memory</h2>
+    
+    <div class="diagram-container">
+node1 (Node Object)                node2 (Node Object)
++---------------+                  +---------------+
+|  val  |  next |----------------->|  val  |  next |-----> None
+|  10   |       |                  |  20   |  None |
++---------------+                  +---------------+</div>
+
+    <div class="box important-box">
+        <div class="box-title">🟢 WHY USE IT?</div>
+        Linked structures me elements memory me contiguous nahi hote. Isiliye hum ek element se dusre element tak pohochne ke liye Node references (pointers) ka use karte hain.
+    </div>
+
+    <h2>2️⃣ Code Implementation</h2>
+    
+    <pre><code><span class="comment"># 1. Custom Class structure</span>
+<span class="keyword">class</span> <span class="function">Node</span>:
+    <span class="comment"># Constructor: Python me __init__ use hota hai (dunder init)</span>
+    <span class="comment"># self represents the current object (JS 'this' equivalent)</span>
+    <span class="keyword">def</span> <span class="function">__init__</span>(self, val):
+        self.val = val      <span class="comment"># Value store karne ke liye</span>
+        self.next = <span class="keyword">None</span>    <span class="comment"># Initial pointer is None</span>
+
+<span class="comment"># 2. Objects initiation</span>
+node1 = <span class="function">Node</span>(<span class="number">10</span>)
+node2 = <span class="function">Node</span>(<span class="number">20</span>)
+
+<span class="comment"># 3. Linking nodes</span>
+node1.next = node2  <span class="comment"># node1 points to node2</span></code></pre>
+
+    <h2>3️⃣ Avoid Common Pitfalls</h2>
+    
+    <div class="box warning-box">
+        <div class="box-title">🔴 COMMON MISTAKE: Missing 'self' parameter</div>
+        <strong>Forgetting 'self' in class method definitions:</strong>
+        <pre style="background: #2d3748; margin: 10px 0 0 0;"><code><span class="keyword">class</span> <span class="function">Node</span>:
+    <span class="keyword">def</span> <span class="function">print_val</span>():  <span class="comment"># ❌ CRASH! Missing self argument!</span>
+        <span class="function">print</span>(val)</code></pre>
+        <p style="margin-top: 10px; margin-bottom: 0;">JS me functions automatic <code>this</code> context capture kar lete hain, par Python me class methods define karte waqt explicitly <code>self</code> pass karna compulsory hota hai.</p>
+    </div>
+
+    <div class="box important-box">
+        <div class="box-title">💡 EASY WAY TO REMEMBER</div>
+        <ul>
+            <li><strong>Python <code>__init__(self)</code> = JS <code>constructor()</code></strong></li>
+            <li><strong>Python <code>self</code> = JS <code>this</code></strong></li>
+            <li><strong>Python <code>None</code> = JS <code>null</code></strong></li>
+        </ul>
+    </div>
+
+</body>
+</html>
+

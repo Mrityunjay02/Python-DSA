@@ -1,0 +1,21 @@
+# Python / Environment ignores
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+.env
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# User custom ignores
+00_BRAIN/
+02_CODE/
+PYTHON/
+06_ROADMAP/
+
+# Ignore all Markdown files (Notes me sirf HTML push hoga)
+*.md

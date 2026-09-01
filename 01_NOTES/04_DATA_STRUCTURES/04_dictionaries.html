@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 3: Python Dictionaries (Hash Maps) Under the Hood</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f7fafc;
+        }
+        h1 {
+            color: #c53030;
+            border-bottom: 3px solid #c53030;
+            padding-bottom: 10px;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #2b6cb0;
+            font-size: 1.5rem;
+            margin-top: 30px;
+            border-left: 5px solid #2b6cb0;
+            padding-left: 10px;
+        }
+        .intro-box {
+            background-color: #fff;
+            border: 1px dashed #cbd5e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        .box {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .concept-box {
+            background-color: #ebf8ff;
+            border-left: 6px solid #3182ce;
+        }
+        .important-box {
+            background-color: #f0fff4;
+            border-left: 6px solid #38a169;
+        }
+        .warning-box {
+            background-color: #fff5f5;
+            border-left: 6px solid #e53e3e;
+        }
+        .box-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .concept-box .box-title { color: #2b6cb0; }
+        .important-box .box-title { color: #276749; }
+        .warning-box .box-title { color: #9b2c2c; }
+        
+        pre {
+            background-color: #1a202c;
+            color: #cbd5e0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            margin: 15px 0;
+        }
+        code {
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            background-color: #edf2f7;
+            color: #805ad5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+            font-size: inherit;
+        }
+        .keyword { color: #f687b3; font-weight: bold; }
+        .function { color: #63b3ed; }
+        .comment { color: #a0aec0; font-style: italic; }
+        .number { color: #f6ad55; }
+        .string { color: #68d391; }
+        
+        .diagram-container {
+            background-color: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid #cbd5e0;
+            line-height: 1.3;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🐍 Lesson 3: Python Dictionaries (Hash Maps) Under the Hood</h1>
+    
+    <div class="intro-box">
+        Bhai, aaj hum Python ka sabse powerhouse data structure seekhenge: <strong>Dictionaries (dict)</strong>. Iska use DSA me frequency counting, hashing, aur lookup optimization me har jagah hota hai.
+    </div>
+
+    <h2>1️⃣ Concept: Dictionary & Hash Maps</h2>
+    
+    <div class="box concept-box">
+        <div class="box-title">🟢 YE KYA HAI? (Definition)</div>
+        Python me Key-Value pairs store karne ke liye <strong>Dictionary</strong> use hoti hai. Ye unique keys ko specific values se map karti hai aur internal hash table dynamic structure ka use karti hai.
+    </div>
+
+    <h2>🖼️ DIAGRAM: Hash Map Layout in Memory</h2>
+    
+    <div class="diagram-container">
+Key (String/Int) ----> [ Hash Function ] ----> Bucket Index ----> Value
+  "name"        ---->    (Calculates)    ---->     [3]      ----> "Amit"
+  "age"         ---->    (Calculates)    ---->     [7]      ----> 25</div>
+
+    <div class="box important-box">
+        <div class="box-title">🟢 WHY USE IT?</div>
+        <ul>
+            <li><strong>Constant Time Lookup O(1):</strong> Kyunki keys directly math computation (Hash) se specific memory bucket me map hoti hain, isiliye search time hamesha <code>O(1)</code> hota hai.</li>
+            <li><strong>Frequency Counting:</strong> DSA problems me character occurrence count karne ke liye best option hai.</li>
+        </ul>
+    </div>
+
+    <h2>2️⃣ Code Implementation</h2>
+    
+    <pre><code><span class="comment"># 1. Dictionary initialization</span>
+user = {<span class="string">"name"</span>: <span class="string">"Amit"</span>, <span class="string">"age"</span>: <span class="number">25</span>}
+
+<span class="comment"># 2. Key-value insert/update</span>
+user[<span class="string">"city"</span>] = <span class="string">"Delhi"</span>
+
+<span class="comment"># 3. Frequency Counter Pattern (Very useful for Anagrams & Sliding Window!)</span>
+s = <span class="string">"apple"</span>
+freq = {}
+<span class="keyword">for</span> char <span class="keyword">in</span> s:
+    <span class="comment"># .get(char, 0) checks if char exists. If not, returns default 0.</span>
+    freq[char] = freq.get(char, <span class="number">0</span>) + <span class="number">1</span>
+
+<span class="function">print</span>(freq)  <span class="comment"># Output: {'a': 1, 'p': 2, 'l': 1, 'e': 1}</span></code></pre>
+
+    <h2>3️⃣ Avoid Common Pitfalls</h2>
+    
+    <div class="box warning-box">
+        <div class="box-title">🔴 COMMON MISTAKE: KeyErrors (Crash!)</div>
+        <strong>Direct Key Access on non-existent keys:</strong>
+        <pre style="background: #2d3748; margin: 10px 0 0 0;"><code>user = {<span class="string">"name"</span>: <span class="string">"Amit"</span>}
+<span class="function">print</span>(user[<span class="string">"age"</span>])  <span class="comment"># ❌ CRASH! KeyError: 'age'</span></code></pre>
+        <p style="margin-top: 10px; margin-bottom: 0;">JS me non-existent keys <code>undefined</code> return karti hain, par Python strict hai aur <code>KeyError</code> throw karta hai. Hamesha check karein: <code>if "age" in user:</code> ya use karein <code>.get()</code> method.</p>
+    </div>
+
+</body>
+</html>
+

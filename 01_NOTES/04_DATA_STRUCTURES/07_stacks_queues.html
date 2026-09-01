@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 7: Stacks & Queues (LIFO vs FIFO & Deque optimization)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f7fafc;
+        }
+        h1 {
+            color: #c53030;
+            border-bottom: 3px solid #c53030;
+            padding-bottom: 10px;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #2b6cb0;
+            font-size: 1.5rem;
+            margin-top: 30px;
+            border-left: 5px solid #2b6cb0;
+            padding-left: 10px;
+        }
+        .intro-box {
+            background-color: #fff;
+            border: 1px dashed #cbd5e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        .box {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .concept-box {
+            background-color: #ebf8ff;
+            border-left: 6px solid #3182ce;
+        }
+        .important-box {
+            background-color: #f0fff4;
+            border-left: 6px solid #38a169;
+        }
+        .warning-box {
+            background-color: #fff5f5;
+            border-left: 6px solid #e53e3e;
+        }
+        .box-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .concept-box .box-title { color: #2b6cb0; }
+        .important-box .box-title { color: #276749; }
+        .warning-box .box-title { color: #9b2c2c; }
+        
+        pre {
+            background-color: #1a202c;
+            color: #cbd5e0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            margin: 15px 0;
+        }
+        code {
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            background-color: #edf2f7;
+            color: #805ad5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+            font-size: inherit;
+        }
+        .keyword { color: #f687b3; font-weight: bold; }
+        .function { color: #63b3ed; }
+        .comment { color: #a0aec0; font-style: italic; }
+        .number { color: #f6ad55; }
+        
+        .diagram-container {
+            background-color: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid #cbd5e0;
+            line-height: 1.3;
+        }
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🐍 Lesson 7: Stacks & Queues (LIFO vs FIFO & Deque optimization)</h1>
+    
+    <div class="intro-box">
+        Bhai, aaj hum do super important linearly constrained data structures seekhenge: <strong>Stack</strong> aur <strong>Queue</strong>. Iska use tree traversals (BFS/DFS), backtracking, aur expression parsing me har jagah hota hai.
+    </div>
+
+    <h2>1️⃣ Concept: Stack (LIFO - Last In First Out)</h2>
+    
+    <div class="box concept-box">
+        <div class="box-title">🟢 YE KYA HAI? (Definition)</div>
+        Stack me elements ka addition aur removal ek hi side (Top) se hota hai. Jo element sabse aakhir me daala gaya hai, wo sabse pehle niklega (LIFO).
+    </div>
+
+    <h2>🖼️ DIAGRAM: Stack Operations Flow</h2>
+    
+    <div class="diagram-container">
+PUSH (Add at Top)       POP (Remove from Top)
+   |  30  |  &lt;-- Top       [ 30 ]  --&gt; Out!
+   |  20  |                |  20  |  &lt;-- New Top
+   |  10  |                |  10  |
+   +------+                +------+</div>
+
+    <pre><code>stack = []
+
+<span class="comment"># 1. Push operation</span>
+stack.append(<span class="number">10</span>)
+stack.append(<span class="number">20</span>)
+
+<span class="comment"># 2. Pop operation (Removes 20)</span>
+removed_val = stack.pop()
+
+<span class="comment"># 3. Peek (Check top element)</span>
+top_val = stack[-1]  <span class="comment"># Python negative index</span></code></pre>
+
+    <h2>2️⃣ Concept: Queue (FIFO - First In First Out)</h2>
+    
+    <div class="box concept-box">
+        <div class="box-title">🟢 YE KYA HAI? (Definition)</div>
+        Queue me insertion ek side (Rear/Tail) se hota hai aur deletion dusri side (Front/Head) se. Jo element pehle aaya hai, wo sabse pehle bahar niklega (FIFO).
+    </div>
+
+    <h2>🖼️ DIAGRAM: Queue Operations Flow</h2>
+    
+    <div class="diagram-container">
+In (Enqueue) ────&gt; [ 30 | 20 | 10 ] ────&gt; Out (Dequeue)
+                   Rear        Front</div>
+
+    <div class="box warning-box">
+        <div class="box-title">🔴 OPTIMIZATION: Why NOT use Python Lists for Queue?</div>
+        <strong>The Shift Problem:</strong> Python list me agar hum start se element delete karein (<code>list.pop(0)</code>), to baaki sabhi elements ko ek-ek position left shift karna padta hai. Iski time complexity <strong>O(N)</strong> ho jati hai jo bohot slow hai.
+        <br><br>
+        <strong>Solution (collections.deque):</strong> Python me queue ke liye hum <code>collections</code> module se <code>deque</code> (double-ended queue) use karte hain. Isme start se delete karna (<code>popleft()</code>) <strong>O(1)</strong> time complexity me efficient ho jata hai.
+    </div>
+
+    <pre><code><span class="keyword">from</span> collections <span class="keyword">import</span> deque
+
+<span class="comment"># 1. Deque initialize karna</span>
+queue = deque()
+
+<span class="comment"># 2. Enqueue (Insert at Rear)</span>
+queue.append(<span class="number">10</span>)
+queue.append(<span class="number">20</span>)
+
+<span class="comment"># 3. Dequeue (Remove from Front in O(1) time)</span>
+first_out = queue.popleft()  <span class="comment"># returns 10</span></code></pre>
+
+    <div class="box important-box">
+        <div class="box-title">💡 EASY WAY TO REMEMBER</div>
+        <ul>
+            <li><strong>Stack = Plate stack in a party (LIFO)</strong></li>
+            <li><strong>Queue = Ticket line at theater (FIFO)</strong></li>
+        </ul>
+    </div>
+
+</body>
+</html>
+

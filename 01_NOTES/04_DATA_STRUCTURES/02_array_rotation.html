@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lesson 1c: Array Rotation by K Steps (Optimized Reversal Trick)</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #2d3748;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f7fafc;
+        }
+        h1 {
+            color: #c53030;
+            border-bottom: 3px solid #c53030;
+            padding-bottom: 10px;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #2b6cb0;
+            font-size: 1.5rem;
+            margin-top: 30px;
+            border-left: 5px solid #2b6cb0;
+            padding-left: 10px;
+        }
+        .intro-box {
+            background-color: #fff;
+            border: 1px dashed #cbd5e0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-style: italic;
+        }
+        .box {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+        .concept-box {
+            background-color: #ebf8ff;
+            border-left: 6px solid #3182ce;
+        }
+        .important-box {
+            background-color: #f0fff4;
+            border-left: 6px solid #38a169;
+        }
+        .warning-box {
+            background-color: #fff5f5;
+            border-left: 6px solid #e53e3e;
+        }
+        .box-title {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .concept-box .box-title { color: #2b6cb0; }
+        .important-box .box-title { color: #276749; }
+        .warning-box .box-title { color: #9b2c2c; }
+        
+        pre {
+            background-color: #1a202c;
+            color: #cbd5e0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            margin: 15px 0;
+        }
+        code {
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            background-color: #edf2f7;
+            color: #805ad5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+            font-size: inherit;
+        }
+        .keyword { color: #f687b3; font-weight: bold; }
+        .function { color: #63b3ed; }
+        .comment { color: #a0aec0; font-style: italic; }
+        .number { color: #f6ad55; }
+        
+        .diagram-container {
+            background-color: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            white-space: pre;
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid #cbd5e0;
+            line-height: 1.3;
+        }
+        .pointer-label {
+            color: #e53e3e;
+            font-weight: bold;
+        }
+        
+        ul {
+            padding-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🐍 Lesson 1c: Array Rotation by K Steps (Optimized Reversal Trick)</h1>
+    
+    <div class="intro-box">
+        Bhai, ye Array Rotation seekhne ke detailed notes hain. Isme humne Leetcode Medium category ki problem ko simple trick se crack kiya hai.
+    </div>
+
+    <h2>1️⃣ Concept: Rotating an Array</h2>
+    
+    <div class="box concept-box">
+        <div class="box-title">🟢 YE KYA HAI? (Definition)</div>
+        Array rotation ka matlab hota hai elements ko cyclic way me shift karna. Agar hum bolte hain "Rotate Right by K=2 steps", to array ke aakhir ke 2 elements shuruat me aa jayenge.
+    </div>
+
+    <h2>🖼️ DIAGRAM: The 3-Step Reversal Algorithm (O(1) Space Hack!)</h2>
+    
+    <div class="diagram-container">
+Initial Array:  [ 1 | 2 | 3 | 4 | 5 ]  (k = 2, Size n = 5)
+
+Step 1: Pure array ko reverse kar do
+                [ 5 | 4 | 3 | 2 | 1 ]
+
+Step 2: Pehle K elements (index 0 se K-1) ko reverse karo
+                [ 4 | 5 | 3 | 2 | 1 ]
+                 -- --
+Step 3: Baaki bache elements (index K se n-1) ko reverse karo
+                [ 4 | 5 | 1 | 2 | 3 ]  ---> Target Output!
+                         -- -- --</div>
+
+    <h2>2️⃣ Why We Use It?</h2>
+    
+    <div class="box important-box">
+        <div class="box-title">🟢 COMPLEXITY ANALYSIS</div>
+        <ul>
+            <li><strong>Brute Force:</strong> Shift elements one-by-one K times. Time Complexity: <code>O(k * n)</code> - Extremely slow!</li>
+            <li><strong>Extra Array:</strong> Copy elements to a temporary array. Space Complexity: <code>O(n)</code> - Consumes extra memory.</li>
+            <li><strong>Reversal Trick:</strong> Time Complexity <strong>O(n)</strong> and Space Complexity <strong>O(1)</strong>. Absolutely optimized!</li>
+        </ul>
+    </div>
+
+    <h2>3️⃣ Python Code Implementation</h2>
+    
+    <pre><code><span class="comment"># Helper function to reverse a subarray range in-place</span>
+<span class="keyword">def</span> <span class="function">reverse</span>(arr, left, right):
+    <span class="keyword">while</span> left &lt; right:
+        arr[left], arr[right] = arr[right], arr[left]
+        left += <span class="number">1</span>
+        right -= <span class="number">1</span>
+
+<span class="keyword">def</span> <span class="function">rotate_array</span>(arr, k):
+    n = <span class="function">len</span>(arr)
+    <span class="comment"># k if larger than n, modulo gets the remainder</span>
+    k = k % n 
+    
+    <span class="comment"># Step 1: Reverse entire array</span>
+    <span class="function">reverse</span>(arr, <span class="number">0</span>, n - <span class="number">1</span>)
+    
+    <span class="comment"># Step 2: Reverse first k elements</span>
+    <span class="function">reverse</span>(arr, <span class="number">0</span>, k - <span class="number">1</span>)
+    
+    <span class="comment"># Step 3: Reverse remaining n-k elements</span>
+    <span class="function">reverse</span>(arr, k, n - <span class="number">1</span>)
+    
+    <span class="keyword">return</span> arr</code></pre>
+
+    <h2>4️⃣ Modulo Hack</h2>
+    
+    <div class="box warning-box">
+        <div class="box-title">💡 REDUCE REDUNDANCY: k = k % n</div>
+        Agar array size <code>5</code> hai aur hum <code>k = 5</code> rotation karenge to array wapas original ban jayega. 
+        Aise hi, <code>k = 7</code> rotation is exactly identical to <code>k = 2</code> rotation.
+        Isiliye computation waste se bachne ke liye <code>k = k % n</code> kiya jata hai.
+    </div>
+
+</body>
+</html>
+
