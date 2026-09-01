@@ -13,9 +13,11 @@ Thumbs.db
 
 # User custom ignores
 00_BRAIN/
+01_NOTES/
 02_CODE/
 PYTHON/
 06_ROADMAP/
 
-# Ignore all Markdown files (Notes me sirf HTML push hoga)
+# Ignore document file types
 *.md
+*.html
