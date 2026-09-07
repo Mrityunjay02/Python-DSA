@@ -61,7 +61,7 @@ def main():
     
     while True:
         print("\n--- Binary Tree DFS Menu ---")
-        print("1. Build / Change Tree (Enter numbers from keyboard)")
+        print("1. Build / Change Tree")
         print("2. Inorder Traversal (Left -> Root -> Right)")
         print("3. Preorder Traversal (Root -> Left -> Right)")
         print("4. Postorder Traversal (Left -> Right -> Root)")
@@ -71,7 +71,7 @@ def main():
         
         if choice == "1":
             try:
-                raw_input = input("Enter node values : ")
+                raw_input = input("Enter node values: ")
                 vals = [int(x) if x.lower() != 'none' and x.lower() != 'null' else None for x in raw_input.split()]
                 if vals:
                     root = build_tree_from_list(vals)
@@ -106,7 +106,7 @@ def main():
                 print("Postorder (L -> R -> Root):", " -> ".join(res))
                 
         elif choice == "5":
-            print("DONE.")
+            print("done.")
             break
         else:
             print("Invalid Option.")

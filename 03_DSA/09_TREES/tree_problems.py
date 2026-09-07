@@ -71,7 +71,7 @@ def main():
     root = None
     while True:
         print("\n--- Tree Core Problems Menu ---")
-        print("1. Build / Change Tree (Keyboard input, ")
+        print("1. Build / Change Tree")
         print("2. Calculate Maximum Depth / Height")
         print("3. Invert Tree (Mirror Flip)")
         print("4. Check if Tree is Valid BST")
@@ -124,4 +124,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-

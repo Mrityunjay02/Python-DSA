@@ -24,7 +24,6 @@ def find_kth_smallest(nums, k):
 # 3. Merge K Sorted Arrays (O(N log K))
 def merge_k_sorted(arrays):
     heap = []
-    # Push first element of each array: (val, array_idx, elem_idx)
     for i, arr in enumerate(arrays):
         if arr:
             heapq.heappush(heap, (arr[0], i, 0))
@@ -34,7 +33,6 @@ def merge_k_sorted(arrays):
         val, arr_idx, elem_idx = heapq.heappop(heap)
         result.append(val)
         
-        # If there is a next element in the same array, push it
         if elem_idx + 1 < len(arrays[arr_idx]):
             next_val = arrays[arr_idx][elem_idx + 1]
             heapq.heappush(heap, (next_val, arr_idx, elem_idx + 1))
@@ -44,18 +42,18 @@ def merge_k_sorted(arrays):
 def main():
     while True:
         print("\n=== Heap Core Problems Menu ===")
-        print("1. Top K Frequent Elements (LeetCode 347)")
+        print("1. Top K Frequent Elements")
         print("2. Find K-th Smallest Element")
-        print("3. Merge K Sorted Arrays (LeetCode 23 style)")
+        print("3. Merge K Sorted Arrays")
         print("4. Exit")
         
         choice = input("Choose Option (1-4): ").strip()
         
         if choice == "1":
             try:
-                raw = input("Enter array (e.g. 1 1 1 2 2 3): ")
+                raw = input("Enter array: ")
                 nums = [int(x) for x in raw.split()]
-                k = int(input("Enter K (e.g. 2): "))
+                k = int(input("Enter K: "))
                 
                 res = top_k_frequent(nums, k)
                 print(f"🟢 Top {k} Frequent Elements in {nums}: {res}")
@@ -64,9 +62,9 @@ def main():
                 
         elif choice == "2":
             try:
-                raw = input("Enter array (e.g. 7 10 4 3 20 15): ")
+                raw = input("Enter array: ")
                 nums = [int(x) for x in raw.split()]
-                k = int(input("Enter K (e.g. 3 for 3rd smallest): "))
+                k = int(input("Enter K: "))
                 
                 if k < 1 or k > len(nums):
                     print("Error: K is out of range!")
@@ -78,10 +76,10 @@ def main():
                 
         elif choice == "3":
             try:
-                k = int(input("How many sorted arrays to merge? (e.g. 3): "))
+                k = int(input("How many sorted arrays to merge?: "))
                 arrays = []
                 for i in range(k):
-                    raw = input(f"  Enter sorted array {i+1} (spaces): ")
+                    raw = input(f"  Enter sorted array {i+1}: ")
                     arrays.append([int(x) for x in raw.split()])
                     
                 merged = merge_k_sorted(arrays)
@@ -90,11 +88,10 @@ def main():
                 print("Error:", e)
                 
         elif choice == "4":
-            print("Keep rockin the 90-Day Challenge! Bye.")
+            print("done.")
             break
         else:
             print("Invalid Choice.")
 
 if __name__ == "__main__":
     main()
-

@@ -7,13 +7,15 @@ class Graph:
         self.directed = directed
 
     def add_edge(self, u, v):
-        self.adj[u].append(v)
+        if v not in self.adj[u]:
+            self.adj[u].append(v)
         if not self.directed:
-            self.adj[v].append(u)
+            if u not in self.adj[v]:
+                self.adj[v].append(u)
 
     def display(self):
         if not self.adj:
-            print("Graph is empty!")
+            print("Graph is empty! Add edges first.")
             return
         print("\n--- Adjacency List ---")
         for node in sorted(self.adj.keys()):
@@ -58,59 +60,23 @@ class Graph:
         _dfs_helper(start_node)
         return order
 
-def build_sample_graph():
-    # Sample Graph:
-    #   0 ─── 1 ─── 3
-    #   │     │
-    #   2 ─── 4
-    g = Graph(directed=False)
-    edges = [(0, 1), (0, 2), (1, 3), (1, 4), (2, 4)]
-    for u, v in edges:
-        g.add_edge(u, v)
-    return g
-
 def main():
-    g = build_sample_graph()
+    g = Graph(directed=False)
     
     while True:
         print("\n=== Graph Operations Menu ===")
-        print("1. Display Current Graph (Adjacency List)")
-        print("2. Run BFS Traversal (Shortest level search)")
-        print("3. Run DFS Traversal (Depth search)")
-        print("4. Add Custom Edges from Keyboard (e.g. 0-1 1-2 2-3)")
-        print("5. Reset Graph (Create new empty graph)")
+        print("1. Add Edges (Format: u-v u-w)")
+        print("2. Display Adjacency List")
+        print("3. Run BFS Traversal")
+        print("4. Run DFS Traversal")
+        print("5. Reset Graph")
         print("6. Exit")
         
         choice = input("Choose Option (1-6): ").strip()
         
         if choice == "1":
-            g.display()
-            
-        elif choice == "2":
             try:
-                start = int(input("Enter start node for BFS: "))
-                order = g.bfs(start)
-                if order:
-                    print(f"🟢 BFS Traversal from Node {start}: " + " -> ".join(order))
-                else:
-                    print(f"Node {start} not found in graph!")
-            except ValueError:
-                print("Error: Please enter a valid node.")
-                
-        elif choice == "3":
-            try:
-                start = int(input("Enter start node for DFS: "))
-                order = g.dfs(start)
-                if order:
-                    print(f"🟢 DFS Traversal from Node {start}: " + " -> ".join(order))
-                else:
-                    print(f"Node {start} not found in graph!")
-            except ValueError:
-                print("Error: Please enter a valid node.")
-                
-        elif choice == "4":
-            try:
-                raw = input("Enter edges separated by spaces (e.g. 0-1 1-2 2-3): ")
+                raw = input("Enter edges: ")
                 pairs = raw.split()
                 for pair in pairs:
                     u, v = map(int, pair.split('-'))
@@ -118,18 +84,48 @@ def main():
                 print("Edges added successfully!")
                 g.display()
             except Exception:
-                print("Error: Format should be like '0-1 1-2 2-3'")
+                print("Error: Enter valid format like '0-1 1-2'")
                 
+        elif choice == "2":
+            g.display()
+            
+        elif choice == "3":
+            if not g.adj:
+                print("Graph is empty! Add edges first.")
+            else:
+                try:
+                    start = int(input("Enter start node: "))
+                    order = g.bfs(start)
+                    if order:
+                        print(f"🟢 BFS Traversal from Node {start}: " + " -> ".join(order))
+                    else:
+                        print(f"Node {start} not found in graph!")
+                except ValueError:
+                    print("Error: Please enter a valid number.")
+                    
+        elif choice == "4":
+            if not g.adj:
+                print("Graph is empty! Add edges first.")
+            else:
+                try:
+                    start = int(input("Enter start node: "))
+                    order = g.dfs(start)
+                    if order:
+                        print(f"🟢 DFS Traversal from Node {start}: " + " -> ".join(order))
+                    else:
+                        print(f"Node {start} not found in graph!")
+                except ValueError:
+                    print("Error: Please enter a valid number.")
+                    
         elif choice == "5":
             g = Graph(directed=False)
-            print("Graph reset! New empty graph created.")
+            print("Graph reset! Graph is now empty.")
             
         elif choice == "6":
-            print("Keep rockin the 90-Day DSA challenge! Bye.")
+            print("done.")
             break
         else:
             print("Invalid Choice.")
 
 if __name__ == "__main__":
     main()
-
